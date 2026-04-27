@@ -65,6 +65,7 @@ Un analista que gana $50/h y pierde 45 min/día en copy-paste = **$200+/mes en t
 | 🌊 **Streaming en tiempo real** | Ves cada token mientras se genera, status entre nodos, progreso del plan paso a paso. |
 | 🧠 **Memoria persistente** | SQLite para historial conversacional, ChromaDB para RAG sobre tus documentos, watcher automático del workspace. |
 | 👤 **Personalización contextual** | Tu perfil profesional + tu empresa se inyectan en cada respuesta. Prisma habla tu vocabulario, conoce tu sector y respeta tus formatos. |
+| 🎨 **Template fidelity 100%** | Sube tu plantilla corporativa (Word, Excel o PowerPoint) y Prisma entrega outputs **idénticos en formato**: misma paleta, mismas fuentes, mismos masters, mismos headers. No genera desde cero — edita tu plantilla preservando byte-a-byte la identidad visual. |
 
 ---
 
@@ -89,6 +90,20 @@ Cada **Tarea** es un proyecto con título, descripción, carpeta de escritorio (
 ![Configurador entrevistando al usuario](docs/screenshots/02b-configurador.png)
 
 ¿No sabes qué información darle al asistente? Prisma incluye un agente **Configurador** que te entrevista con preguntas concretas (título, descripción, carpeta de escritorio, base de conocimiento, plantilla de salida) hasta tener todo lo que necesita. Cada pregunta tiene un slot visible a la izquierda — ves en tiempo real qué falta y cuándo está completa. **Resultado**: tareas bien especificadas sin que tengas que aprender qué campos rellenar ni en qué formato.
+
+#### Template fidelity — tu plantilla, tu marca, tu output
+
+Cada Tarea tiene un campo opcional **Plantilla de salida**. Apuntas allí a tu plantilla corporativa (`.docx`, `.pptx` o `.xlsx`) y se acabó el problema de "el informe que generó la IA no se parece al que envía mi empresa". Prisma **NO genera el archivo desde cero**. Toma tu plantilla, descomprime su estructura interna, edita SOLO el contenido (los placeholders que tú definas) y la vuelve a empaquetar — preservando byte-a-byte:
+
+- 🎨 Paleta corporativa exacta (los hex codes que usa tu empresa, no defaults de Office)
+- 🔤 Fuentes correctas (incluyendo headings y body)
+- 📐 Márgenes, espaciados y line-height de tu plantilla
+- 🖼️ Master slides en PowerPoint (con tu logo, tu footer, tu branding visual)
+- 📋 Estilos de heading (H1/H2/H3) tal como los configuraste
+- 🔖 Headers, footers y numeración de página
+- 🎯 Cualquier elemento visual personalizado que tu plantilla traiga
+
+Resultado: el documento que entrega Prisma es **indistinguible** de uno hecho a mano por alguien de tu empresa. Esto vende solo en industrias donde el formato corporativo es no-negociable (consultoría, finanzas, sector regulado, oil & gas).
 
 ### 3. Agentes — los 5 especialistas
 
@@ -271,6 +286,9 @@ Aunque el código es privado, la arquitectura es transparente.
 - [x] **Skills curadas** (xlsx, docx, pptx, pdf, reuniones-summary, skill-forge) inyectadas automáticamente
 - [x] **Perfil de Usuario + Empresa** inyectado en orquestador y todos los agentes
 - [x] **Plantillas-guía** en placeholders del Perfil para perfiles estructurados y útiles
+- [x] **Indicador visual de historial reanudado** al cambiar de Tarea
+- [x] **Prompt caching para skills** (`cache_control: ephemeral`) — ~10× reducción de costo en cache hits
+- [x] **Template fidelity 100%** — outputs Word/Excel/PowerPoint que respetan byte-a-byte la plantilla corporativa del usuario (paleta, fuentes, masters, headers/footers)
 
 **En camino** 🚧
 - [ ] **Empaquetado nativo** con Tauri (`.exe` de ~10 MB) firmado
