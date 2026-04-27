@@ -66,6 +66,7 @@ Un analista que gana $50/h y pierde 45 min/día en copy-paste = **$200+/mes en t
 | 🧠 **Memoria persistente** | SQLite para historial conversacional, ChromaDB para RAG sobre tus documentos, watcher automático del workspace. |
 | 👤 **Personalización contextual** | Tu perfil profesional + tu empresa se inyectan en cada respuesta. Prisma habla tu vocabulario, conoce tu sector y respeta tus formatos. |
 | 🎨 **Template fidelity 100%** | Sube tu plantilla corporativa (Word, Excel o PowerPoint) y Prisma entrega outputs **idénticos en formato**: misma paleta, mismas fuentes, mismos masters, mismos headers. No genera desde cero — edita tu plantilla preservando byte-a-byte la identidad visual. |
+| 👁️ **Preview de artefactos sin salir de la app** | Cada documento generado se previsualiza inline: tabla HTML para Excel/CSV, render con estilos para Word, outline para PowerPoint, embebido nativo para PDF e imágenes. Botón "Abrir" para verlo en tu Office instalado. **Sin instalar LibreOffice ni subir nada a la nube.** |
 
 ---
 
@@ -289,6 +290,7 @@ Aunque el código es privado, la arquitectura es transparente.
 - [x] **Indicador visual de historial reanudado** al cambiar de Tarea
 - [x] **Prompt caching para skills** (`cache_control: ephemeral`) — ~10× reducción de costo en cache hits
 - [x] **Template fidelity 100%** — outputs Word/Excel/PowerPoint que respetan byte-a-byte la plantilla corporativa del usuario (paleta, fuentes, masters, headers/footers)
+- [x] **Preview de artefactos** — modal inline con render por formato (Word via mammoth, Excel via openpyxl→tabla HTML, PowerPoint outline, PDF e imágenes embebidos nativamente, CSV/texto plano) + botón "Abrir" que lanza tu Office instalado
 
 **En camino** 🚧
 - [ ] **Empaquetado nativo** con Tauri (`.exe` de ~10 MB) firmado
