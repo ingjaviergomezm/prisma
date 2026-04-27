@@ -41,14 +41,36 @@ Y lo más importante: **pagas solo por lo que usas**. Tu propia cuenta de OpenRo
 | | |
 |---|---|
 | 💸 **Sin suscripciones** | Una sola licencia. Tu cuenta de OpenRouter, tus modelos. Si no usas Prisma este mes, no pagas. Comparable: Copilot $30/mes/usuario, ChatGPT Plus $20/mes — Prisma cero. |
+| 🎯 **Skills probadas en producción** | Cada agente está enriquecido con skills curadas (xlsx, docx, pptx, pdf) — manuales de mejores prácticas que evitan los errores típicos del código autogenerado. Más detalle abajo. |
+| 🔧 **Skill-Forge: se expande solo** | ¿Necesitas que Prisma haga algo específico de tu trabajo? Le dices, te entrevista y se crea su propia skill nueva. Cada uso te deja un Prisma más capaz que el anterior. |
 | 🔒 **100% local** | Tus archivos nunca salen de tu máquina. Solo las consultas al LLM viajan, encriptadas, vía OpenRouter. |
 | 🛡️ **Modo ZDR** | Toggle Zero Data Retention en la UI: enruta solo a proveedores que no almacenan tus datos. Útil para información sensible. |
 | 🛠️ **Ejecución real** | Sandbox aislado para correr código. Si pides análisis, genera y ejecuta `pandas`. Si pides un Word, te entrega el `.docx`. |
 | 🔌 **300+ modelos** | Sin lock-in. Claude para razonar, Gemini para research, DeepSeek para escribir documentos — el modelo correcto para cada tarea, vía OpenRouter. |
 | 🩺 **Auto-validación** | Prisma verifica que tus modelos estén disponibles. Si alguno se deprecia, te avisa con un banner y te sugiere el reemplazo de un click. |
+| 📁 **Tareas con espacio propio** | Cada tarea tiene su escritorio, su base de conocimiento (RAG) y su historial. No mezclas contextos. |
+| 💾 **Backup automático** | Antes de cada operación que toque tus archivos, Prisma snapshot tu carpeta de trabajo. Cero riesgo de perder un Excel a las 11 pm. |
 | 🌊 **Streaming en tiempo real** | Ves cada token mientras se genera, status entre nodos, progreso del plan paso a paso. |
 | 🧠 **Memoria persistente** | SQLite para historial conversacional, ChromaDB para RAG sobre tus documentos, watcher automático del workspace. |
-| 📚 **Aprende de cada uso** | Después de cada tarea exitosa, propone mejoras a sus agentes que tú apruebas con un click. |
+
+---
+
+## Skills curadas — calidad de output que nadie más ofrece
+
+Cada agente de Prisma está enriquecido con **skills tipo Anthropic** — manuales completos de mejores prácticas que el modelo carga en su system prompt al ejecutar la tarea. No es magia: son convenciones probadas que evitan los errores típicos del código autogenerado.
+
+| Skill | Para qué sirve | Lo que evita |
+|---|---|---|
+| **xlsx** | Excel, CSV, modelos financieros | Hardcodear sumas en lugar de fórmulas; errores #REF!/#DIV/0!; fuentes inconsistentes; bordes y formato roto |
+| **docx** | Word — informes, actas, contratos | Bullets unicode (rotos en Google Docs); tablas con anchos quebrados; estilos de plantilla destruidos al editar |
+| **pptx** | Presentaciones — pitch decks, reportes ejecutivos | Slides text-only aburridas; paletas de color por defecto; alineaciones rotas; lineas decorativas que delatan "AI-generated" |
+| **pdf** | Lectura, extracción, OCR, generación | Caracteres unicode subscript que se renderizan como cuadros negros en ReportLab; PDFs escaneados sin OCR |
+| **reuniones-summary** | Síntesis estructurada de reuniones | Resúmenes vagos sin "Decisiones Clave", "Puntos de Acción" con dueño y fecha, ni seguimiento concreto |
+| **skill-forge** | Meta-skill: Prisma se expande | Genera nuevas skills bajo demanda con interview progresivo (Quick Mode) o arquitectura completa con scripts y referencias (Advanced Mode) |
+
+**¿Por qué importa?** Sin estas skills, un LLM genérico te genera un Excel con `df.sum()` en Python (valor estático). Con la skill xlsx, te genera `=SUM(B2:B12)` en la celda — formula real que recalcula al cambiar inputs. Esa diferencia es la que separa un demo de algo que un analista usa todos los días.
+
+Las skills son **modulares y editables** — viven como markdown en disco. Si tu equipo tiene un patrón propio (formato corporativo, normas ISO, plantillas de cliente), puedes crear tu propia skill o pedirle a **Skill-Forge** que la genere por ti.
 
 ---
 
@@ -70,7 +92,7 @@ Cada agente es un *skill* editable: nombre, avatar, descripción corta, prompt c
 
 ![Vista de tareas / backlog](docs/screenshots/03-tareas.png)
 
-Las tareas activas se inyectan automáticamente en el contexto del orquestador. Cuando le pides algo a Prisma, ya sabe en qué proyectos estás trabajando, qué está en progreso y qué es crítico.
+Las tareas activas se inyectan automáticamente en el contexto del orquestador. Cada tarea tiene su propio espacio de trabajo (escritorio + base de conocimiento) y su propio historial.
 
 ### Orquestador configurable: tu IA, tu personalidad
 
@@ -96,7 +118,7 @@ Define el nombre, emoji, tono y modelo del orquestador (el agente que clasifica 
                       ▼      ▼      ▼
                  ┌──────┐┌─────┐┌────┐┌─────┐
                  │Datos ││Off. ││Res.││Cód. │  Agentes especialistas
-                 └───┬──┘└──┬──┘└──┬─┘└──┬──┘  (modelo potente por rol)
+                 └───┬──┘└──┬──┘└──┬─┘└──┬──┘  + skills curadas inyectadas
                      │      │      │     │
                      └──────┴──┬───┴─────┘
                                ▼
@@ -116,13 +138,13 @@ Define el nombre, emoji, tono y modelo del orquestador (el agente que clasifica 
 
 **Cinco roles de modelo** — stack default optimizado por calidad/precio (abr-2026, configurable):
 
-| Rol      | Modelo recomendado                | Por qué                                                           |
-|----------|-----------------------------------|-------------------------------------------------------------------|
-| Router   | `anthropic/claude-haiku-4.5`      | Rápido (TTFT ~600ms) y barato — clasifica intent en cada turno    |
-| Datos    | `moonshotai/kimi-k2.6`            | Top en LiveCodeBench v6 — análisis numérico y pandas              |
-| Office   | `deepseek/deepseek-v4-pro`        | Mejor relación costo/calidad para `python-docx` y `openpyxl`      |
-| Research | `google/gemini-3-flash-preview`   | 1M de contexto — RAG sobre múltiples documentos                   |
-| Código   | `openai/gpt-5.3-codex`            | #2 SWE-bench Pro — línea Codex entrenada para código              |
+| Rol      | Modelo recomendado                | Skills inyectadas                      | Por qué                                                           |
+|----------|-----------------------------------|----------------------------------------|-------------------------------------------------------------------|
+| Router   | `anthropic/claude-haiku-4.5`      | —                                      | Rápido (TTFT ~600ms) y barato — clasifica intent en cada turno    |
+| Datos    | `moonshotai/kimi-k2.6`            | `xlsx`                                 | Top en LiveCodeBench v6 — análisis numérico y pandas              |
+| Office   | `deepseek/deepseek-v4-pro`        | `xlsx`, `docx`, `pptx`, `pdf`          | Mejor relación costo/calidad para `python-docx` y `openpyxl`      |
+| Research | `google/gemini-3-flash-preview`   | `pdf`, `reuniones-summary`             | 1M de contexto — RAG sobre múltiples documentos                   |
+| Código   | `openai/gpt-5.3-codex`            | `skill-forge`                          | #2 SWE-bench Pro — línea Codex entrenada para código              |
 
 Cada rol tiene un suplente cross-provider: si el principal cae (404 / 503 / outage del proveedor), Prisma reintenta automáticamente sin que lo notes.
 
@@ -136,10 +158,11 @@ Cada rol tiene un suplente cross-provider: si el principal cae (404 / 503 / outa
 | Modelos         | OpenRouter — 300+ modelos, BYO API key            |
 | Backend         | FastAPI + WebSockets + asyncio                    |
 | Datos           | pandas, openpyxl, sqlalchemy                      |
-| Office          | python-docx, python-pptx, openpyxl                |
+| Office          | python-docx, python-pptx, openpyxl, pdfplumber, ReportLab |
 | RAG             | ChromaDB + watchdog (indexer automático)          |
 | Frontend        | React 18 + Vite + Tailwind + Zustand              |
 | Estilo          | macOS Sonoma/Sequoia design system                |
+| Skills          | Manuales markdown estilo Anthropic Skills (curados de [el-camello](https://github.com/ingjaviergomezm/el-camello)) |
 | Empaquetado     | Tauri (próximamente — `.exe` nativo de ~10 MB)    |
 
 ---
@@ -162,12 +185,13 @@ Aunque el código es privado, la arquitectura es transparente.
 **Pipeline típico de una petición:**
 
 1. WebSocket recibe el mensaje del usuario
-2. **Router** (Claude Haiku 4.5) clasifica intención y construye plan
-3. **Agente especializado** (Kimi/DeepSeek/Gemini/GPT-5 Codex según el rol) genera código ejecutable
-4. **Sandbox** (subprocess aislado, timeout 30-60s) ejecuta y captura stdout/stderr/artefactos
-5. **Verificador** decide: entregar al usuario o iterar (max 3)
-6. Resultado + artefactos se transmiten por WS al frontend
-7. **Aprendizaje** propone mejoras al `SKILL.md` del agente para próximas veces
+2. **Backup automático** del escritorio de la tarea activa (snapshot silencioso)
+3. **Router** (Claude Haiku 4.5) clasifica intención y construye plan
+4. **Agente especializado** (Kimi/DeepSeek/Gemini/GPT-5 Codex según el rol) carga sus **skills curadas** + perfil del usuario + contexto de tarea, y genera código ejecutable
+5. **Sandbox** (subprocess aislado, timeout 30-60s) ejecuta y captura stdout/stderr/artefactos
+6. **Verificador** decide: entregar al usuario o iterar (max 3)
+7. Resultado + artefactos se transmiten por WS al frontend
+8. **Aprendizaje** propone mejoras al `SKILL.md` del agente para próximas veces
 
 **Si un modelo cae**: el sistema dispara automáticamente un suplente cross-provider en el segundo intento — sin que el usuario lo note. Si un modelo deja de existir en OpenRouter, un banner ámbar avisa con la sugerencia de reemplazo.
 
@@ -181,17 +205,20 @@ Aunque el código es privado, la arquitectura es transparente.
 - [x] Agentes datos / office / research / código / general con ejecución real
 - [x] Sandbox compartido para código Python
 - [x] Memoria SQLite + ChromaDB con watcher automático
-- [x] UI Mission Control con diseño macOS (Sonoma/Sequoia)
+- [x] UI Mission Control con diseño macOS (Sonoma/Sequoia) — glass coherente en todas las pantallas
 - [x] Streaming de tokens en tiempo real
 - [x] Aprendizaje autónomo (propuestas de skill)
-- [x] Multi-turn con preservación de contexto
+- [x] Multi-turn con preservación de contexto + carga de historial al cambiar de tarea
 - [x] Pantalla "Ajustes": configura tu OpenRouter key + toggle ZDR sin tocar código
 - [x] Validación automática de modelos: si alguno se deprecia, banner + sugerencia
 - [x] Fallback cross-provider transparente: si un modelo cae, otro responde
+- [x] **Módulo de Tareas** con agente Configurador que entrevista al usuario
+- [x] **RAG por Tarea** — cada tarea tiene su propia base de conocimiento (ChromaDB filtrado)
+- [x] **Backup automático silencioso** del escritorio antes de cada operación
+- [x] **Skills curadas** (xlsx, docx, pptx, pdf, reuniones-summary, skill-forge) inyectadas automáticamente
 
 **En camino** 🚧
-- [ ] Módulo de **Tareas** con agente Configurador que te entrevista para configurar el contexto
-- [ ] **Empaquetado nativo** con Tauri (`.exe` de ~10 MB)
+- [ ] **Empaquetado nativo** con Tauri (`.exe` de ~10 MB) firmado
 - [ ] **Sistema de licencias** ligado a Machine ID + canal de updates
 - [ ] **Panel de créditos OpenRouter** — saldo restante y consumo por modelo en tiempo real
 - [ ] Integración con Hotmart para distribución comercial
