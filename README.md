@@ -12,7 +12,7 @@ Tu coworker IA local. Un input, múltiples especialistas.
 [![LangGraph](https://img.shields.io/badge/LangGraph-1.0-1c3c3c?style=flat-square)](https://langchain-ai.github.io/langgraph/)
 [![React](https://img.shields.io/badge/React-18-61dafb?style=flat-square&logo=react&logoColor=white)](https://react.dev)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![OpenRouter](https://img.shields.io/badge/OpenRouter-300%2B%20modelos-ff7e29?style=flat-square)](https://openrouter.ai)
+[![OpenRouter](https://img.shields.io/badge/OpenRouter-360%20modelos-ff7e29?style=flat-square)](https://openrouter.ai)
 
 ![Prisma — pantalla principal](docs/screenshots/01-chat.png)
 
@@ -34,19 +34,31 @@ Prisma vive en tu máquina y **ejecuta**. No describe, no sugiere, no te dice "p
 
 Y lo más importante: **pagas solo por lo que usas**. Tu propia cuenta de OpenRouter, tus propios modelos, sin suscripción mensual del software.
 
+### ¿Cuánto te ahorra realmente?
+
+| | Suscripción típica | Con Prisma |
+|---|---|---|
+| **Plan AI** | Copilot Pro $30/mes · ChatGPT Plus $20/mes · Claude Pro $20/mes | **$0/mes de software** |
+| **Costo de modelos** | Incluido — pero ilimitado solo si caes dentro de los límites | Lo que consumes en OpenRouter (típico analista activo: $5–15/mes) |
+| **Anual estimado** | $240–360/año por persona | **~$60–180/año + 1 sola licencia Prisma** |
+| **Tiempo perdido en copy-paste** | 30–60 min/día moviendo código entre chat y editor, ajustando rutas, exportando outputs | **0 min** — Prisma ejecuta y entrega el archivo final |
+
+Un analista que gana $50/h y pierde 45 min/día en copy-paste = **$200+/mes en tiempo improductivo**. Prisma elimina ese costo entero.
+
 ---
 
 ## ¿Por qué Prisma?
 
 | | |
 |---|---|
-| 💸 **Sin suscripciones** | Una sola licencia. Tu cuenta de OpenRouter, tus modelos. Si no usas Prisma este mes, no pagas. Comparable: Copilot $30/mes/usuario, ChatGPT Plus $20/mes — Prisma cero. |
+| 💸 **Sin suscripciones** | Una sola licencia, sin cuota mensual. Tu cuenta de OpenRouter, tus modelos. Si no usas Prisma este mes, no pagas software. Comparable: Copilot $30/mes/usuario, ChatGPT Plus $20/mes, Claude Pro $20/mes — Prisma **$0**. |
+| 🚫 **Cero copy-paste** | El asistente común te genera código que tú copias, pegas en tu IDE, ajustas rutas, ejecutas y guardas. Prisma hace todo eso por ti y te entrega el `.xlsx` o `.docx` listo en tu carpeta. **Recuperas 30–60 min/día de flow ininterrumpido.** |
+| 🔌 **360 modelos a un click** | Acceso al catálogo completo de OpenRouter — todos los Claude (Haiku/Sonnet/Opus), todos los GPT (4o/5/Codex), Gemini, DeepSeek, Kimi, Grok, Llama, Mistral, GLM... Cambias un dropdown y ya estás usando otro modelo. **Sin lock-in, sin migrar entre apps.** |
 | 🎯 **Skills probadas en producción** | Cada agente está enriquecido con skills curadas (xlsx, docx, pptx, pdf) — manuales de mejores prácticas que evitan los errores típicos del código autogenerado. |
 | 🔧 **Skill-Forge: se expande solo** | ¿Necesitas que Prisma haga algo específico de tu trabajo? Le dices, te entrevista y se crea su propia skill nueva. Cada uso te deja un Prisma más capaz que el anterior. |
 | 🔒 **100% local** | Tus archivos nunca salen de tu máquina. Solo las consultas al LLM viajan, encriptadas, vía OpenRouter. |
 | 🛡️ **Modo ZDR** | Toggle Zero Data Retention en la UI: enruta solo a proveedores que no almacenan tus datos. Útil para información sensible. |
 | 🛠️ **Ejecución real** | Sandbox aislado para correr código. Si pides análisis, genera y ejecuta `pandas`. Si pides un Word, te entrega el `.docx`. |
-| 🔌 **300+ modelos** | Sin lock-in. Claude para razonar, Gemini para research, DeepSeek para escribir documentos — el modelo correcto para cada tarea, vía OpenRouter. |
 | 🩺 **Auto-validación** | Prisma verifica que tus modelos estén disponibles. Si alguno se deprecia, te avisa con un banner y te sugiere el reemplazo de un click. |
 | 📁 **Tareas con espacio propio** | Cada tarea tiene su escritorio, su base de conocimiento (RAG) y su historial. No mezclas contextos. |
 | 💾 **Backup automático** | Antes de cada operación que toque tus archivos, Prisma snapshot tu carpeta de trabajo. Cero riesgo de perder un Excel a las 11 pm. |
@@ -70,13 +82,39 @@ Pides cualquier cosa en lenguaje natural y Prisma decide qué especialista activ
 
 ![Tareas — backlog y filtros](docs/screenshots/02-tareas.png)
 
-Cada **Tarea** es un proyecto con título, descripción, carpeta de escritorio (donde Prisma trabaja los archivos), base de conocimiento (RAG dedicado) y plantilla de salida opcional. Cuando creas una nueva tarea, un agente **Configurador** te entrevista con preguntas concretas hasta tener todo lo que necesita. Después la activas con "Trabajar en esta tarea" y el resto del chat queda dirigido a ese contexto — sin mezclar el informe del cliente A con los datos del cliente B.
+Cada **Tarea** es un proyecto con título, descripción, carpeta de escritorio (donde Prisma trabaja los archivos), base de conocimiento (RAG dedicado) y plantilla de salida opcional. Después la activas con "Trabajar en esta tarea" y el resto del chat queda dirigido a ese contexto — sin mezclar el informe del cliente A con los datos del cliente B.
+
+#### Tareas que se autoconfiguran
+
+![Configurador entrevistando al usuario](docs/screenshots/02b-configurador.png)
+
+¿No sabes qué información darle al asistente? Prisma incluye un agente **Configurador** que te entrevista con preguntas concretas (título, descripción, carpeta de escritorio, base de conocimiento, plantilla de salida) hasta tener todo lo que necesita. Cada pregunta tiene un slot visible a la izquierda — ves en tiempo real qué falta y cuándo está completa. **Resultado**: tareas bien especificadas sin que tengas que aprender qué campos rellenar ni en qué formato.
 
 ### 3. Agentes — los 5 especialistas
 
 ![Pestaña de Agentes](docs/screenshots/03-agentes.png)
 
-Cada agente es **editable**: nombre, símbolo, descripción, prompt completo y modelo LLM. El stack default está optimizado por calidad/precio (abr-2026): **Kimi K2.6** para datos, **DeepSeek V4 Pro** para Office, **Gemini 3 Flash** para research, **GPT-5.3 Codex** para código y **Kimi K2.6** para conversación general. Si quieres cambiar uno por algo más barato (o más potente), un click en el agente te abre el modal de edición con todos los modelos del catálogo OpenRouter.
+Cinco agentes especializados, cada uno apuntando al modelo óptimo en relación calidad/precio (abr-2026):
+
+| Agente | Modelo default | Para qué brilla |
+|---|---|---|
+| **Analista de Datos** | Kimi K2.6 | Análisis pandas, Excel con fórmulas, gráficas |
+| **Generador de Documentos** | DeepSeek V4 Pro | Word, PowerPoint, PDF, Excel formateado |
+| **Investigador** | Gemini 3 Flash | RAG, resúmenes de documentos, 1M de contexto |
+| **Desarrollador Python** | GPT-5.3 Codex | Scripts, automatizaciones, debugging |
+| **Asistente General** | Kimi K2.6 | Conversación, preguntas, ayuda sin herramientas |
+
+#### Cada agente es 100% editable
+
+![Modal de detalle del agente](docs/screenshots/03b-agente-detalle.png)
+
+Click en cualquier agente y se abre su panel: nombre, símbolo, descripciones, **modelo LLM** y **system prompt completo** — el conjunto de instrucciones que define su comportamiento. Edítalo si quieres que sea más formal, más técnico, que use tu vocabulario sectorial o que siga una plantilla específica. Los cambios se aplican en el siguiente turno, sin reiniciar nada.
+
+#### Acceso a 360 modelos vía OpenRouter
+
+![Lista curada de modelos LLM](docs/screenshots/03c-modelos-disponibles.png)
+
+El dropdown muestra una **lista curada de 14 modelos** etiquetados por uso recomendado (router, datos, office, research, código, premium, top reasoning, top GPQA, económicos). Detrás, tienes acceso a los **360 modelos** del catálogo completo de OpenRouter — Claude, GPT-5, Gemini, DeepSeek, Kimi, Grok, Llama, Mistral, GLM, Qwen y más. Sin lock-in, sin pagar dos suscripciones para "probar otro modelo": el modelo correcto para cada tarea, a un click.
 
 ### 4. Perfil — tu contexto profesional y de empresa
 
@@ -170,7 +208,7 @@ Cada rol tiene un suplente cross-provider: si el principal cae (404 / 503 / outa
 | Capa            | Tecnología                                        |
 |-----------------|---------------------------------------------------|
 | Orquestación    | LangGraph 1.0 + SqliteSaver (checkpoints)         |
-| Modelos         | OpenRouter — 300+ modelos, BYO API key            |
+| Modelos         | OpenRouter — 360 modelos, BYO API key             |
 | Backend         | FastAPI + WebSockets + asyncio                    |
 | Datos           | pandas, openpyxl, sqlalchemy                      |
 | Office          | python-docx, python-pptx, openpyxl, pdfplumber, ReportLab |
