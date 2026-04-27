@@ -14,7 +14,7 @@ Tu coworker IA local. Un input, múltiples especialistas.
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![OpenRouter](https://img.shields.io/badge/OpenRouter-300%2B%20modelos-ff7e29?style=flat-square)](https://openrouter.ai)
 
-![Prisma — pantalla principal](docs/screenshots/01-empty.png)
+![Prisma — pantalla principal](docs/screenshots/01-chat.png)
 
 </div>
 
@@ -41,7 +41,7 @@ Y lo más importante: **pagas solo por lo que usas**. Tu propia cuenta de OpenRo
 | | |
 |---|---|
 | 💸 **Sin suscripciones** | Una sola licencia. Tu cuenta de OpenRouter, tus modelos. Si no usas Prisma este mes, no pagas. Comparable: Copilot $30/mes/usuario, ChatGPT Plus $20/mes — Prisma cero. |
-| 🎯 **Skills probadas en producción** | Cada agente está enriquecido con skills curadas (xlsx, docx, pptx, pdf) — manuales de mejores prácticas que evitan los errores típicos del código autogenerado. Más detalle abajo. |
+| 🎯 **Skills probadas en producción** | Cada agente está enriquecido con skills curadas (xlsx, docx, pptx, pdf) — manuales de mejores prácticas que evitan los errores típicos del código autogenerado. |
 | 🔧 **Skill-Forge: se expande solo** | ¿Necesitas que Prisma haga algo específico de tu trabajo? Le dices, te entrevista y se crea su propia skill nueva. Cada uso te deja un Prisma más capaz que el anterior. |
 | 🔒 **100% local** | Tus archivos nunca salen de tu máquina. Solo las consultas al LLM viajan, encriptadas, vía OpenRouter. |
 | 🛡️ **Modo ZDR** | Toggle Zero Data Retention en la UI: enruta solo a proveedores que no almacenan tus datos. Útil para información sensible. |
@@ -52,6 +52,49 @@ Y lo más importante: **pagas solo por lo que usas**. Tu propia cuenta de OpenRo
 | 💾 **Backup automático** | Antes de cada operación que toque tus archivos, Prisma snapshot tu carpeta de trabajo. Cero riesgo de perder un Excel a las 11 pm. |
 | 🌊 **Streaming en tiempo real** | Ves cada token mientras se genera, status entre nodos, progreso del plan paso a paso. |
 | 🧠 **Memoria persistente** | SQLite para historial conversacional, ChromaDB para RAG sobre tus documentos, watcher automático del workspace. |
+| 👤 **Personalización contextual** | Tu perfil profesional + tu empresa se inyectan en cada respuesta. Prisma habla tu vocabulario, conoce tu sector y respeta tus formatos. |
+
+---
+
+## Recorrido por la interfaz
+
+Prisma vive en una sola ventana macOS-style, dividida en seis pestañas. Cada una resuelve un trabajo concreto.
+
+### 1. Chat — el centro de mando
+
+![Chat con Prisma](docs/screenshots/01-chat.png)
+
+Pides cualquier cosa en lenguaje natural y Prisma decide qué especialista activar. El panel derecho (Inspector) te muestra **en vivo**: qué agente está ejecutando, en qué fase del loop (planificar / ejecutar / verificar / completar), cuántas iteraciones lleva y qué modelo se usa para cada rol. Las sugerencias rápidas son atajos para los flujos más comunes — Excel, Word, research, scripts. Los artefactos generados se acumulan abajo, listos para abrir o descargar.
+
+### 2. Tareas — proyectos con su propio espacio
+
+![Tareas — backlog y filtros](docs/screenshots/02-tareas.png)
+
+Cada **Tarea** es un proyecto con título, descripción, carpeta de escritorio (donde Prisma trabaja los archivos), base de conocimiento (RAG dedicado) y plantilla de salida opcional. Cuando creas una nueva tarea, un agente **Configurador** te entrevista con preguntas concretas hasta tener todo lo que necesita. Después la activas con "Trabajar en esta tarea" y el resto del chat queda dirigido a ese contexto — sin mezclar el informe del cliente A con los datos del cliente B.
+
+### 3. Agentes — los 5 especialistas
+
+![Pestaña de Agentes](docs/screenshots/03-agentes.png)
+
+Cada agente es **editable**: nombre, símbolo, descripción, prompt completo y modelo LLM. El stack default está optimizado por calidad/precio (abr-2026): **Kimi K2.6** para datos, **DeepSeek V4 Pro** para Office, **Gemini 3 Flash** para research, **GPT-5.3 Codex** para código y **Kimi K2.6** para conversación general. Si quieres cambiar uno por algo más barato (o más potente), un click en el agente te abre el modal de edición con todos los modelos del catálogo OpenRouter.
+
+### 4. Perfil — tu contexto profesional y de empresa
+
+![Perfil del usuario y empresa](docs/screenshots/04-perfil.png)
+
+Aquí escribes quién eres (rol, experiencia, áreas de especialidad), cómo prefieres trabajar (formato, herramientas, tono) y para qué empresa lo haces (sector, tamaño, normas aplicables). **Esta información se inyecta en cada respuesta** del orquestador y los agentes — Prisma habla con tu vocabulario, sabe que trabajas en oil & gas o en fintech o en salud, y adapta sus outputs al contexto. Cada campo viene con una **plantilla-guía estructurada** como placeholder para que sepas exactamente qué incluir.
+
+### 5. Orquestador — la voz de Prisma
+
+![Orquestador configurable](docs/screenshots/05-orquestador.png)
+
+El orquestador es el agente que recibe cada solicitud, decide a qué especialista delegarla y coordina la respuesta. Aquí defines su **nombre, símbolo, personalidad y modelo LLM**. Por default es Prisma con Claude Haiku 4.5 (rápido y barato — basta para clasificar intents), pero si quieres llamarlo "Yara" o "Aria" y darle un tono más formal o más técnico, lo cambias aquí. La vista previa arriba te muestra cómo se verá.
+
+### 6. Ajustes — privacidad y conexión a OpenRouter
+
+![Ajustes — API key y ZDR](docs/screenshots/06-ajustes.png)
+
+Aquí pegas tu **OpenRouter API key** (BYO — tu cuenta, tu saldo, tu control) y activas el modo **ZDR (Zero Data Retention)**, que enruta tus consultas solo a proveedores que no almacenan tus datos. Útil para información sensible, regulada o con NDA. Un banner global te avisa si alguno de tus modelos configurados deja de estar disponible en OpenRouter, con un botón "Aplicar sugerencia" que cambia al reemplazo recomendado de un click.
 
 ---
 
@@ -74,34 +117,6 @@ Las skills son **modulares y editables** — viven como markdown en disco. Si tu
 
 ---
 
-## Galería
-
-### Estado en vivo: orquestador, plan, agente activo, modelos por rol
-
-![Chat con tres agentes coordinándose](docs/screenshots/02-chat.png)
-
-El panel derecho (Inspector) muestra qué agente está ejecutando, en qué fase del loop (planificar/ejecutar/verificar/completar), cuántas iteraciones lleva, y qué modelo se está usando para cada rol. La conversación muestra al agente Datos pasándole el control al agente Office tras analizar el Excel.
-
-### Skills personalizables: cada agente con su propio prompt y modelo LLM
-
-![Catálogo de skills disponibles](docs/screenshots/04-skills.png)
-
-Cada agente es un *skill* editable: nombre, avatar, descripción corta, prompt completo y modelo. Activas/desactivas, ajustas la personalidad, y Prisma propone mejoras automáticamente después de cada ejecución exitosa.
-
-### Tareas: contexto persistente en cada conversación
-
-![Vista de tareas / backlog](docs/screenshots/03-tareas.png)
-
-Las tareas activas se inyectan automáticamente en el contexto del orquestador. Cada tarea tiene su propio espacio de trabajo (escritorio + base de conocimiento) y su propio historial.
-
-### Orquestador configurable: tu IA, tu personalidad
-
-![Configuración del orquestador](docs/screenshots/05-orquestador.png)
-
-Define el nombre, emoji, tono y modelo del orquestador (el agente que clasifica y delega). Cambia su personalidad sin tocar código.
-
----
-
 ## Arquitectura
 
 ```
@@ -114,7 +129,7 @@ Define el nombre, emoji, tono y modelo del orquestador (el agente que clasifica 
                               ▼
                     ┌────────────────────┐
                     │  Router/Orquestador│  Clasifica intención + plan
-                    └─┬──────┬──────┬────┘
+                    └─┬──────┬──────┬────┘  (consciente del perfil del usuario)
                       ▼      ▼      ▼
                  ┌──────┐┌─────┐┌────┐┌─────┐
                  │Datos ││Off. ││Res.││Cód. │  Agentes especialistas
@@ -186,8 +201,8 @@ Aunque el código es privado, la arquitectura es transparente.
 
 1. WebSocket recibe el mensaje del usuario
 2. **Backup automático** del escritorio de la tarea activa (snapshot silencioso)
-3. **Router** (Claude Haiku 4.5) clasifica intención y construye plan
-4. **Agente especializado** (Kimi/DeepSeek/Gemini/GPT-5 Codex según el rol) carga sus **skills curadas** + perfil del usuario + contexto de tarea, y genera código ejecutable
+3. **Router** (Claude Haiku 4.5) clasifica intención y construye plan, **consciente del perfil del usuario** (rol + sector + empresa) para mejor enrutamiento
+4. **Agente especializado** (Kimi/DeepSeek/Gemini/GPT-5 Codex según el rol) carga sus **skills curadas** + perfil completo + contexto de tarea, y genera código ejecutable
 5. **Sandbox** (subprocess aislado, timeout 30-60s) ejecuta y captura stdout/stderr/artefactos
 6. **Verificador** decide: entregar al usuario o iterar (max 3)
 7. Resultado + artefactos se transmiten por WS al frontend
@@ -216,6 +231,8 @@ Aunque el código es privado, la arquitectura es transparente.
 - [x] **RAG por Tarea** — cada tarea tiene su propia base de conocimiento (ChromaDB filtrado)
 - [x] **Backup automático silencioso** del escritorio antes de cada operación
 - [x] **Skills curadas** (xlsx, docx, pptx, pdf, reuniones-summary, skill-forge) inyectadas automáticamente
+- [x] **Perfil de Usuario + Empresa** inyectado en orquestador y todos los agentes
+- [x] **Plantillas-guía** en placeholders del Perfil para perfiles estructurados y útiles
 
 **En camino** 🚧
 - [ ] **Empaquetado nativo** con Tauri (`.exe` de ~10 MB) firmado
