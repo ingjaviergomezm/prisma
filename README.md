@@ -67,6 +67,9 @@ Un analista que gana $50/h y pierde 45 min/día en copy-paste = **$200+/mes en t
 | 👤 **Personalización contextual** | Tu perfil profesional + tu empresa se inyectan en cada respuesta. Prisma habla tu vocabulario, conoce tu sector y respeta tus formatos. |
 | 🎨 **Template fidelity 100%** | Sube tu plantilla corporativa (Word, Excel o PowerPoint) y Prisma entrega outputs **idénticos en formato**: misma paleta, mismas fuentes, mismos masters, mismos headers. No genera desde cero — edita tu plantilla preservando byte-a-byte la identidad visual. |
 | 👁️ **Preview de artefactos sin salir de la app** | Cada documento generado se previsualiza inline: tabla HTML para Excel/CSV, render con estilos para Word, outline para PowerPoint, embebido nativo para PDF e imágenes. Botón "Abrir" para verlo en tu Office instalado. **Sin instalar LibreOffice ni subir nada a la nube.** |
+| 📊 **Editor Excel inline** | Edita las hojas que el agente genera **dentro de Prisma**, sin abrir Excel: barra de fórmulas, navegación por teclas, multi-sheet, formato. Cambios se guardan al disco con un click. Funciona offline, sin depender de Microsoft 365 ni Google Sheets. |
+| ⏱️ **Time Travel** | Cada turno del agente y cada edición tuya crea un snapshot automático. Si algo se rompe o quieres volver a "como estaba ayer", abres la sidebar Historial, eliges la versión y restauras de un click. **Cero riesgo de perder trabajo.** |
+| 💬 **Historial de conversaciones** | Todas tus consultas pasadas — sueltas o asociadas a Tareas — están a un click desde el botón Historial del chat. Buscador en tiempo real, títulos auto-generados por IA en el primer turno, renombrar y eliminar. Tu sesión sobrevive a reinicios del navegador. |
 
 ---
 
@@ -291,6 +294,9 @@ Aunque el código es privado, la arquitectura es transparente.
 - [x] **Prompt caching para skills** (`cache_control: ephemeral`) — ~10× reducción de costo en cache hits
 - [x] **Template fidelity 100%** — outputs Word/Excel/PowerPoint que respetan byte-a-byte la plantilla corporativa del usuario (paleta, fuentes, masters, headers/footers)
 - [x] **Preview de artefactos** — modal inline con render por formato (Word via mammoth, Excel via openpyxl→tabla HTML, PowerPoint outline, PDF e imágenes embebidos nativamente, CSV/texto plano) + botón "Abrir" que lanza tu Office instalado
+- [x] **Editor Excel inline (Univer)** — edición real Excel-like dentro de Prisma sin Docker ni LibreOffice. Conversión bidireccional `.xlsx ↔ Univer JSON` preservando fuentes/colores/charts en celdas no editadas
+- [x] **Time Travel** — timeline de versiones automáticas de cada artefacto (backup auto antes de cada turno + backup antes de cada edición). Restaurar versión anterior con un click
+- [x] **Historial de conversaciones** — modal con tabs Sueltas/Tareas, buscador, auto-título via Haiku al primer turno, persistencia en localStorage, renombrar/eliminar
 
 **En camino** 🚧
 - [ ] **Empaquetado nativo** con Tauri (`.exe` de ~10 MB) firmado
