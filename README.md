@@ -130,11 +130,11 @@ Cinco agentes especializados, cada uno apuntando al modelo óptimo en relación 
 
 Click en cualquier agente y se abre su panel: nombre, símbolo, descripciones, **modelo LLM** y **system prompt completo** — el conjunto de instrucciones que define su comportamiento. Edítalo si quieres que sea más formal, más técnico, que use tu vocabulario sectorial o que siga una plantilla específica. Los cambios se aplican en el siguiente turno, sin reiniciar nada.
 
-#### Acceso a 360 modelos vía OpenRouter
+#### Catálogo OpenRouter completo — con buscador
 
 ![Lista curada de modelos LLM](docs/screenshots/03c-modelos-disponibles.png)
 
-El dropdown muestra una **lista curada de 14 modelos** etiquetados por uso recomendado (router, datos, office, research, código, premium, top reasoning, top GPQA, económicos). Detrás, tienes acceso a los **360 modelos** del catálogo completo de OpenRouter — Claude, GPT-5, Gemini, DeepSeek, Kimi, Grok, Llama, Mistral, GLM, Qwen y más. Sin lock-in, sin pagar dos suscripciones para "probar otro modelo": el modelo correcto para cada tarea, a un click.
+El dropdown abre dos secciones: **Recomendados Prisma** (14 modelos curados etiquetados por uso óptimo — router, datos, office, research, código, premium, top reasoning, económicos) y **Catálogo OpenRouter completo** (368 modelos verificados en abr-2026 — Claude, GPT-5, Gemini, DeepSeek, Kimi, Grok, Llama, Mistral, GLM, Qwen y más). Un buscador en vivo filtra por nombre o proveedor. Cada modelo no compatible con ZDR muestra un badge `✗ ZDR` para que sepas qué pasaría si activas el modo Zero-Data-Retention. Sin lock-in, sin pagar dos suscripciones para "probar otro modelo": el modelo correcto para cada tarea, a un click.
 
 ### 4. Perfil — tu contexto profesional y de empresa
 
