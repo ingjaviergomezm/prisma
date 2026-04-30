@@ -70,6 +70,7 @@ Un analista que gana $50/h y pierde 45 min/día en copy-paste = **$200+/mes en t
 | 📊 **Editor Excel inline** | Edita las hojas que el agente genera **dentro de Prisma**, sin abrir Excel: barra de fórmulas, navegación por teclas, multi-sheet, formato. Cambios se guardan al disco con un click. Funciona offline, sin depender de Microsoft 365 ni Google Sheets. |
 | ⏱️ **Time Travel** | Cada turno del agente y cada edición tuya crea un snapshot automático. Si algo se rompe o quieres volver a "como estaba ayer", abres la sidebar Historial, eliges la versión y restauras de un click. **Cero riesgo de perder trabajo.** |
 | 💬 **Historial de conversaciones** | Todas tus consultas pasadas — sueltas o asociadas a Tareas — están a un click desde el botón Historial del chat. Buscador en tiempo real, títulos auto-generados por IA en el primer turno, renombrar y eliminar. Tu sesión sobrevive a reinicios del navegador. |
+| 🛟 **Auto-resilience del stack** | El catálogo de modelos cambia todos los meses: deprecaciones silenciosas, modelos nuevos que reemplazan a viejos. Prisma trae **cadenas de fallback cross-provider por rol** (3 candidates: Anthropic + Kimi + DeepSeek o equivalente). Si un modelo se descontinúa, Prisma usa el siguiente automáticamente sin que tengas que hacer nada. Si la cadena entera cae (caso raro), un botón "Aplicar arreglo" en Ajustes resuelve sin tocar configs. |
 
 ---
 
@@ -297,6 +298,8 @@ Aunque el código es privado, la arquitectura es transparente.
 - [x] **Editor Excel inline (Univer)** — edición real Excel-like dentro de Prisma sin Docker ni LibreOffice. Conversión bidireccional `.xlsx ↔ Univer JSON` preservando fuentes/colores/charts en celdas no editadas
 - [x] **Time Travel** — timeline de versiones automáticas de cada artefacto (backup auto antes de cada turno + backup antes de cada edición). Restaurar versión anterior con un click
 - [x] **Historial de conversaciones** — modal con tabs Sueltas/Tareas, buscador, auto-título via Haiku al primer turno, persistencia en localStorage, renombrar/eliminar
+- [x] **Resilience automática del stack** — cadenas de fallback cross-provider zero-touch por rol; si un modelo se descontinúa, Prisma usa el siguiente sin pedir nada al usuario. Override por slot desde Ajustes para casos extremos. Sustitución silenciosa al activar ZDR (modelos OpenAI no compatibles → Anthropic/Kimi equivalente).
+- [x] **Vista limitada en hojas complejas** — si abres un Excel con tablas dinámicas, gráficos o macros que el editor inline no puede representar fielmente, banner ámbar te avisa antes de editar y te dirige a abrirlo en tu Office instalado.
 
 **En camino** 🚧
 - [ ] **Empaquetado nativo** con Tauri (`.exe` de ~10 MB) firmado
